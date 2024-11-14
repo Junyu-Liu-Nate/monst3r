@@ -34,9 +34,11 @@ def get_frame_info(intrinsics, trajectories, frame_number):
 
 #%% Render with open3dSpecify camera views and intrinsic parameters
 def render_open3d():
-    frame_number = 1
+    frame_number = 24
 
-    pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'pointcloud_{frame_number}.ply')
+    # pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'pointcloud_{frame_number}.ply')
+    # pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'dynamic_points_{frame_number}.ply')
+    pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'static_combined.ply')
     if not os.path.exists(pc_path):
         print(f"Point cloud file does not exist: {pc_path}")
         sys.exit(1)
