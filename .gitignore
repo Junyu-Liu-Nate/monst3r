@@ -150,3 +150,8 @@ dmypy.json
 .pyre/
 zilejNuE
 waymo_processed.zip
+
+demo_tmp/
+video_data/
+
+third_party/RAFT/models.zip

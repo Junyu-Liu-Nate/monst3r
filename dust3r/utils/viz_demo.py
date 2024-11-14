@@ -21,16 +21,54 @@ def convert_scene_output_to_glb(outdir, imgs, pts3d, mask, focals, cams2world, c
 
     scene = trimesh.Scene()
 
+    # def transform_points(points, transform):
+    #     # Apply transformation matrix to points
+    #     points_homogeneous = np.hstack((points.reshape(-1, 3), np.ones((points.shape[0], 1))))
+    #     transformed_points = (transform @ points_homogeneous.T).T[:, :3]
+    #     return transformed_points
+    def transform_points(points, transform):
+        # Reshape points to (-1, 3)
+        points_reshaped = points.reshape(-1, 3)
+        num_points = points_reshaped.shape[0]
+        # Create an array of ones with the same number of rows as points_reshaped
+        ones_column = np.ones((num_points, 1))
+        # Concatenate to form homogeneous coordinates
+        points_homogeneous = np.hstack((points_reshaped, ones_column))
+        # Apply the transformation
+        transformed_points = (transform @ points_homogeneous.T).T[:, :3]
+        return transformed_points
+
     # full pointcloud
     if as_pointcloud:
         pts = np.concatenate([p[m] for p, m in zip(pts3d, mask)])
         col = np.concatenate([p[m] for p, m in zip(imgs, mask)])
         pct = trimesh.PointCloud(pts.reshape(-1, 3), colors=col.reshape(-1, 3))
         scene.add_geometry(pct)
+        
+        ##### Added: Attempts to save per frame pointclouds
+        # print('check in convert_scene_output_to_glb: ', pct.vertices.shape, pct.colors.shape)
+        # for i in range(len(imgs)):
+        #     print(f'pts3d[i] shape: {pts3d[i].shape}, imgs[i] shape: {imgs[i].shape}')
+        #     pct = trimesh.PointCloud(pts3d[i].reshape(-1, 3), colors=imgs[i].reshape(-1, 3))
+        #     print('check in convert_scene_output_to_glb: ', pct.vertices.shape, pct.colors.shape)
+        #     pct.export(os.path.join(outdir, f'pointcloud_{i}.ply'))
+
+        for i in range(len(imgs)):
+            # print(f'pts3d[i] shape: {pts3d[i].shape}, imgs[i] shape: {imgs[i].shape}, cams2world[i] shape: {cams2world[i].shape}')
+            # Transform points to world coordinates
+            pts_world = transform_points(pts3d[i], cams2world[i])
+            # Reshape colors if necessary
+            colors = imgs[i].reshape(-1, 3)
+            # Create point cloud in world coordinates
+            pct = trimesh.PointCloud(pts_world, colors=colors)
+            # Save the point cloud
+            pct.export(os.path.join(outdir, f'pointcloud_{i}.ply'))
     else:
         meshes = []
         for i in range(len(imgs)):
             meshes.append(pts3d_to_trimesh(imgs[i], pts3d[i], mask[i]))
+            mesh = trimesh.Trimesh(**pts3d_to_trimesh(imgs[i], pts3d[i], mask[i]))
+            mesh.export(os.path.join(outdir, f'mesh_{i}.ply'))
         mesh = trimesh.Trimesh(**cat_meshes(meshes))
         scene.add_geometry(mesh)
 

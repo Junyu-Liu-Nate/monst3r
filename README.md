@@ -92,6 +92,13 @@ python demo.py --input demo_data/lady-running --output_dir demo_tmp --seq_name l
 # use video as input: --input demo_data/lady-running.mp4 --num_frames 65
 ```
 
+On Brown CCV
+```
+module load python/3.11.0s-ixrhc3q
+python demo.py --input video_data/demo_data/lady-running/ --output_dir demo_tmp/lady-running --num_frames 65 --image_size 224
+
+```
+
 > Currently, it takes about 33G VRAM to run the inference code on a 16:9 video of 65 frames. Use less frames or disable the `flow_loss` could reduce the memory usage. We are **welcome to any PRs** to improve the memory efficiency (one reasonable way is to implement window-wise optimzation in `optimizer.py`).
 
 ### Visualization
