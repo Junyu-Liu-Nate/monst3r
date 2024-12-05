@@ -38,7 +38,8 @@ def render_open3d():
 
     # pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'pointcloud_{frame_number}.ply')
     # pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'dynamic_points_{frame_number}.ply')
-    pc_path = os.path.join('demo_tmp', 'lady-running-65-224', f'static_combined.ply')
+    pc_path = os.path.join('demo_tmp', 'som_vid', 'breakdance-flare', f'static_combined.ply')
+    # pc_path = os.path.join('demo_tmp', 'pcd0.ply')
     if not os.path.exists(pc_path):
         print(f"Point cloud file does not exist: {pc_path}")
         sys.exit(1)
@@ -48,8 +49,8 @@ def render_open3d():
         print(f"Point cloud has no points: {pc_path}")
         sys.exit(1)
 
-    intrinsics_path = os.path.join(repo_dir, 'demo_tmp', 'lady-running-65-224', 'pred_intrinsics.txt')
-    trajectories_path = os.path.join(repo_dir, 'demo_tmp', 'lady-running-65-224', 'pred_traj.txt')
+    intrinsics_path = os.path.join(repo_dir, 'demo_tmp', 'som_vid', 'breakdance-flare', 'pred_intrinsics.txt')
+    trajectories_path = os.path.join(repo_dir, 'demo_tmp', 'som_vid', 'breakdance-flare', 'pred_traj.txt')
     
     if not os.path.exists(intrinsics_path):
         print(f"Intrinsics file does not exist: {intrinsics_path}")

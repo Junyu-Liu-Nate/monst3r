@@ -37,7 +37,7 @@ def write_point_cloud(file_path, points, colors):
     pc.to_file(file_path)
 
 # Paths to data
-data_dir = os.path.join('demo_tmp', 'lady-running-65-224')
+data_dir = os.path.join('demo_tmp', 'som_vid', 'breakdance-flare')
 pointcloud_template = os.path.join(data_dir, 'pointcloud_{}.ply')
 mask_template = os.path.join(data_dir, 'enlarged_dynamic_mask_{}.png')
 intrinsics_file = os.path.join(data_dir, 'pred_intrinsics.txt')
